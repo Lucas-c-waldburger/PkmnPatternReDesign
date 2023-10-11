@@ -1,14 +1,20 @@
 #include <iostream>
-#include "include/CDataIdentities.h"
+#include "CData/CDataIdentities.h"
+#include "Utils/Rand.h"
+#include "Handler/HitPoints.h"
 
 int main() {
     //std::cout << std::boolalpha << (CardType::TRAINER.equals(CardType::TRAINER));
 
     //CardName cn1{"Electabuzz"}, cn2{"Hitmonlee"};
 
-    CardID cId1{OwnerID::PLAYER_1, 1, 124};
-
-    std::cout << cId1;
+//    CardID cId1{OwnerID::PLAYER_1, 1, 124};
+//
+//    std::cout << cId1;
     //std::cout << std::boolalpha << CardID::ANY.matchesWith(cId1);
+    HitPoints hp(80);
+
+    hp.adjust(-39);
+    std::cout << hp.getCurrent();
     return 0;
 }

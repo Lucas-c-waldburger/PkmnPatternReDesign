@@ -1,4 +1,4 @@
-#include "../include/CDataIdentities.h"
+#include "CDataIdentities.h"
 
 /* Card Type */
 CardType::CardType(int val) : IdentitiesBase<CardType>(val)

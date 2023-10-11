@@ -1,8 +1,9 @@
 #ifndef PKMNPATTERNREDESIGN_CDATAIDENTITIES_H
 #define PKMNPATTERNREDESIGN_CDATAIDENTITIES_H
-#include "../Utils/CNameHash.h"
-#include "IdentitiesBase.h"
+#include "CDataEnums.h"
+#include "../include/IdentitiesBase.h"
 #include <functional>
+
 
 class CardType : public IdentitiesBase<CardType>
 {
@@ -50,8 +51,6 @@ private:
 };
 
 
-enum class OwnerID { PLAYER_1 = 100000,
-                     PLAYER_2 = 200000};
 
 class CardID : public IdentitiesBase<CardID>
 {
@@ -65,6 +64,8 @@ private:
     CardID(int i);
     static int assembleId(OwnerID ownerId, int cpy, int dbNum);
 };
+
+
 
 
 #endif //PKMNPATTERNREDESIGN_CDATAIDENTITIES_H
