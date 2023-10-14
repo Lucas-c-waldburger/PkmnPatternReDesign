@@ -4,6 +4,7 @@
 #include "CDataIdentities.h"
 #include "../Attacking/AttacksInterface.h"
 #include "../Handler/ActiveHandler.h"
+#include <memory>
 
 
 struct PkmnData;
@@ -12,7 +13,7 @@ struct TrainerData;
 
 struct CardData
 {
-    CardData(CardID id, CardType ct, EnergyType et);
+    CardData(CardID id, CardName cn, CardType ct, EnergyType et);
     virtual ~CardData();
 
     CardID cId;

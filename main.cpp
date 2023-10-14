@@ -14,7 +14,7 @@ int main() {
     //std::cout << std::boolalpha << CardID::ANY.matchesWith(cId1);
     HitPoints hp(80);
 
-    hp.adjust(-39);
+    hp.set(100);
     std::cout << hp.getCurrent();
     return 0;
 }
