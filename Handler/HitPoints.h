@@ -19,7 +19,6 @@ private:
     int base;
 
     void keepInBounds();
-    static void round(int& val);
 };
 
 

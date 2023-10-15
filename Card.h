@@ -5,13 +5,15 @@
 class Card
 {
 public:
-    using uPtr = std::unique_ptr<Card>;
-
-    Card(const CardData& cd);
     ~Card();
 
+    static std::unique_ptr<Card> make(const CardData& cd);
+    static bool validateCD(const CardData& cd);
+
 private:
-    CardData* cData;
+    Card(const CardData& cd);
+
+    std::unique_ptr<CardData> cData;
 };
 
 

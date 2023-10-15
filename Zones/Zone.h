@@ -9,7 +9,7 @@ public:
 
 
 private:
-    std::vector<Card::uPtr> cards;
+    std::vector<std::unique_ptr<Card>> cards;
 };
 
 

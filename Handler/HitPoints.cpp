@@ -37,15 +37,6 @@ int HitPoints::getAsNumCounters() const
     return base - (base - current);
 }
 
-void HitPoints::round(int& val)
-{
-    int sign = (val < 0) ? -1 : 1;
-    int remainder = abs(val % 10);
-    std::cout << "REMAINDER: " << remainder << '\n';
-    val = (remainder < 5) ? (abs(val) - remainder) * sign :
-                            (abs(val) + (10 - remainder)) * sign;
-}
-
 void HitPoints::keepInBounds()
 {
     if (current > base)

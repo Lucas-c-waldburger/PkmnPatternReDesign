@@ -68,4 +68,5 @@ private:
 
 
 
+
 #endif //PKMNPATTERNREDESIGN_CDATAIDENTITIES_H

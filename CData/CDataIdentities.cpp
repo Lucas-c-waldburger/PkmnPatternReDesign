@@ -21,6 +21,8 @@ EnergyType::EnergyType(int val) : IdentitiesBase<EnergyType>(val)
 EnergyType::~EnergyType()
 {}
 
+
+
 const EnergyType EnergyType::NULL_VALUE = IdentitiesBase<EnergyType>::nullVal,
                  EnergyType::ANY = IdentitiesBase<EnergyType>::anyVal,
                  EnergyType::WATER = 1,
@@ -30,6 +32,8 @@ const EnergyType EnergyType::NULL_VALUE = IdentitiesBase<EnergyType>::nullVal,
                  EnergyType::PSYCHIC = 5,
                  EnergyType::FIGHTING = 6,
                  EnergyType::COLORLESS = 7;
+
+
 
 
 /* Card Name */
