@@ -3,6 +3,14 @@
 #define PKMNPATTERNREDESIGN_PROTOCD_H
 #include <iostream>
 
+
+// open fstream
+// cards.emplace_back()  // default constructor
+// read in cardData
+// cards.back().cdProto.MergeFromCodedStream(&input)
+//
+// assembleCardID(PlayerID pId,
+
 namespace CardData
 {
     const int MATCH_ANY_INT_VAL = 0;
@@ -62,107 +70,109 @@ namespace CardData
 
     };
 
-    bool writeDelimitedTo(const google::protobuf::MessageLite& message,
-                          google::protobuf::io::ZeroCopyOutputStream* rawOutput)
-    {
-        // We create a new coded stream for each message.  Don't worry, this is fast.
-        google::protobuf::io::CodedOutputStream output(rawOutput);
+//    bool writeDelimitedTo(const google::protobuf::MessageLite& message,
+//                          google::protobuf::io::ZeroCopyOutputStream* rawOutput)
+//    {
+//        // We create a new coded stream for each message.  Don't worry, this is fast.
+//        google::protobuf::io::CodedOutputStream output(rawOutput);
+//
+//        // Write the size.
+//        const int size = message.ByteSize();
+//        output.WriteVarint32(size);
+//
+//        uint8_t* buffer = output.GetDirectBufferForNBytesAndAdvance(size);
+//        if (buffer != NULL)
+//        {
+//            // Optimization:  The message fits in one buffer, so use the faster
+//            // direct-to-array serialization path.
+//            message.SerializeWithCachedSizesToArray(buffer);
+//        }
+//
+//        else
+//        {
+//            // Slightly-slower path when the message is multiple buffers.
+//            message.SerializeWithCachedSizes(&output);
+//            if (output.HadError())
+//                return false;
+//        }
+//
+//        return true;
+//    }
+//
+//    bool readDelimitedFrom(google::protobuf::io::ZeroCopyInputStream* rawInput, google::protobuf::MessageLite* message, bool* clean_eof)
+//    {
+//        // We create a new coded stream for each message.  Don't worry, this is fast,
+//        // and it makes sure the 64MB total size limit is imposed per-message rather
+//        // than on the whole stream.  (See the CodedInputStream interface for more
+//        // info on this limit.)
+//        google::protobuf::io::CodedInputStream input(rawInput);
+//        const int start = input.CurrentPosition();
+//        if (clean_eof)
+//            *clean_eof = false;
+//
+//
+//        // Read the size.
+//        uint32_t size;
+//        if (!input.ReadVarint32(&size))
+//        {
+//            if (clean_eof)
+//                *clean_eof = input.CurrentPosition() == start;
+//            return false;
+//        }
+//        // Tell the stream not to read beyond that size.
+//        google::protobuf::io::CodedInputStream::Limit limit = input.PushLimit(size);
+//
+//        // Parse the message.
+//        if (!message->MergeFromCodedStream(&input)) return false;
+//        if (!input.ConsumedEntireMessage()) return false;
+//
+//        // Release the limit.
+//        input.PopLimit(limit);
+//
+//        return true;
+//    }
+//
+//    template <typename T>
+//    bool writeManyToFile(std::deque<T> messages, std::string filename) {
+//        int outfd = open(filename.c_str(), O_WRONLY | O_CREAT | O_TRUNC);
+//        google::protobuf::io::FileOutputStream fout(outfd);
+//
+//        bool success;
+//        for (auto msg: messages) {
+//            success = google::protobuf::util::SerializeDelimitedToZeroCopyStream(
+//                    msg, &fout);
+//            if (! success) {
+//                std::cout << "Writing Failed" << std::endl;
+//                break;
+//            }
+//        }
+//        fout.Close();
+//        close(outfd);
+//        return success;
+//    }
+//
+//    template <typename T>
+//    std::deque<T> readManyFromFile(std::string filename) {
+//        int infd = open(filename.c_str(), O_RDONLY);
+//
+//        google::protobuf::io::FileInputStream fin(infd);
+//        bool keep = true;
+//        bool clean_eof = true;
+//        std::deque<T> out;
+//
+//        while (keep) {
+//            T msg;
+//            keep = google::protobuf::util::ParseDelimitedFromZeroCopyStream(
+//                    &msg, &fin, nullptr);
+//            if (keep)
+//                out.push_back(msg);
+//        }
+//        fin.Close();
+//        close(infd);
+//        return out;
+//    }
 
-        // Write the size.
-        const int size = message.ByteSize();
-        output.WriteVarint32(size);
 
-        uint8_t* buffer = output.GetDirectBufferForNBytesAndAdvance(size);
-        if (buffer != NULL)
-        {
-            // Optimization:  The message fits in one buffer, so use the faster
-            // direct-to-array serialization path.
-            message.SerializeWithCachedSizesToArray(buffer);
-        }
-
-        else
-        {
-            // Slightly-slower path when the message is multiple buffers.
-            message.SerializeWithCachedSizes(&output);
-            if (output.HadError())
-                return false;
-        }
-
-        return true;
-    }
-
-    bool readDelimitedFrom(google::protobuf::io::ZeroCopyInputStream* rawInput, google::protobuf::MessageLite* message, bool* clean_eof)
-    {
-        // We create a new coded stream for each message.  Don't worry, this is fast,
-        // and it makes sure the 64MB total size limit is imposed per-message rather
-        // than on the whole stream.  (See the CodedInputStream interface for more
-        // info on this limit.)
-        google::protobuf::io::CodedInputStream input(rawInput);
-        const int start = input.CurrentPosition();
-        if (clean_eof)
-            *clean_eof = false;
-
-
-        // Read the size.
-        uint32_t size;
-        if (!input.ReadVarint32(&size))
-        {
-            if (clean_eof)
-                *clean_eof = input.CurrentPosition() == start;
-            return false;
-        }
-        // Tell the stream not to read beyond that size.
-        google::protobuf::io::CodedInputStream::Limit limit = input.PushLimit(size);
-
-        // Parse the message.
-        if (!message->MergeFromCodedStream(&input)) return false;
-        if (!input.ConsumedEntireMessage()) return false;
-
-        // Release the limit.
-        input.PopLimit(limit);
-
-        return true;
-    }
-
-    template <typename T>
-    bool writeManyToFile(std::deque<T> messages, std::string filename) {
-        int outfd = open(filename.c_str(), O_WRONLY | O_CREAT | O_TRUNC);
-        google::protobuf::io::FileOutputStream fout(outfd);
-
-        bool success;
-        for (auto msg: messages) {
-            success = google::protobuf::util::SerializeDelimitedToZeroCopyStream(
-                    msg, &fout);
-            if (! success) {
-                std::cout << "Writing Failed" << std::endl;
-                break;
-            }
-        }
-        fout.Close();
-        close(outfd);
-        return success;
-    }
-
-    template <typename T>
-    std::deque<T> readManyFromFile(std::string filename) {
-        int infd = open(filename.c_str(), O_RDONLY);
-
-        google::protobuf::io::FileInputStream fin(infd);
-        bool keep = true;
-        bool clean_eof = true;
-        std::deque<T> out;
-
-        while (keep) {
-            T msg;
-            keep = google::protobuf::util::ParseDelimitedFromZeroCopyStream(
-                    &msg, &fin, nullptr);
-            if (keep)
-                out.push_back(msg);
-        }
-        fin.Close();
-        close(infd);
-        return out;
-    }
 
 };
 
